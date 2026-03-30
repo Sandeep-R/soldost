@@ -10,7 +10,7 @@
  * All components run in a single process on Railway.
  */
 
-import express, { Express, Request, Response } from 'express';
+import express, { Express, Response } from 'express';
 import next from 'next';
 import { env } from '@/lib/config/env';
 import { logger } from '@/lib/config/logger';

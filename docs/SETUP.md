@@ -129,8 +129,6 @@ The session will persist in `data/baileys/` directory.
 | LLM_PROVIDER | No | anthropic | Default: anthropic |
 | LLM_MODEL | No | claude-3-5-sonnet-20241022 | Default Sonnet model |
 | WHATSAPP_SESSION_NAME | No | soldost-bot | Session identifier for Baileys |
-| LEARNER_PHONE_NUMBER | Dev only | +91... | Test learner number |
-| TEACHER_PHONE_NUMBER | Dev only | +91... | Test teacher number |
 | BOT_PHONE_NUMBER | Dev only | +91... | Bot number |
 | NODE_ENV | No | development | development \| production |
 | PORT | No | 3000 | Server port |

@@ -63,7 +63,7 @@ export class BaileysBot {
   private messageHandlers: Map<string, (msg: WhatsAppMessage) => Promise<void>> =
     new Map();
 
-  constructor(phoneNumber: string = env.BOT_WHATSAPP_NUMBER) {
+  constructor(phoneNumber: string = env.BOT_PHONE_NUMBER) {
     this.phoneNumber = phoneNumber;
   }
 

@@ -14,8 +14,6 @@ const envSchema = z.object({
   // WhatsApp Bot
   WHATSAPP_SESSION_NAME: z.string().default('soldost-bot'),
   BOT_PHONE_NUMBER: z.string().optional(),
-  LEARNER_PHONE_NUMBER: z.string().optional(),
-  TEACHER_PHONE_NUMBER: z.string().optional(),
 
   // Application
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
