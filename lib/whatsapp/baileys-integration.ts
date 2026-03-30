@@ -33,7 +33,6 @@ import makeWASocket, {
 } from '@baileys/core';
 import { logger } from '@/lib/config/logger';
 import { env } from '@/lib/config/env';
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { learningLoopEngine } from '@/services/learning-loop-engine';
 import type { MessageForEvaluation, LoopState } from '@/services/learning-loop-engine';
 

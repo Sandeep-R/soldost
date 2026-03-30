@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '@/lib/supabase/client';
 import type { Database } from '@/lib/supabase/types';
 
 type Group = Database['public']['Tables']['groups']['Row'];
@@ -12,7 +12,7 @@ type LearningLoop = Database['public']['Tables']['learning_loops']['Row'];
 export default function GroupDetail() {
   const params = useParams();
   const groupId = params.id as string;
-  const supabase = createClientComponentClient<Database>();
+  const supabase = createClient<Database>();
 
   const [group, setGroup] = useState<Group | null>(null);
   const [streak, setStreak] = useState<Streak | null>(null);

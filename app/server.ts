@@ -10,7 +10,7 @@
  * All components run in a single process on Railway.
  */
 
-import express, { Express, Response } from 'express';
+import express, { Express } from 'express';
 import next from 'next';
 import { env } from '@/lib/config/env';
 import { logger } from '@/lib/config/logger';
@@ -77,6 +77,8 @@ async function initializeServices() {
     throw error;
   }
 }
+
+/**
  * Phase 9: Implement this
  */
 async function initializeScheduler() {
@@ -151,7 +153,7 @@ async function main() {
     });
 
     // Initialize bot and scheduler (in parallel)
-    await Promise.all([initializeBailey(), initializeScheduler()]);
+    await initializeServices();
 
     // Start server
     const server = app.listen(PORT, () => {

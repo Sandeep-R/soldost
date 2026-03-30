@@ -1,18 +1,26 @@
 import js from '@eslint/js';
-import tseslint from 'typescript-eslint';
+import tsPlugin from '@typescript-eslint/eslint-plugin';
+import tsParser from '@typescript-eslint/parser';
 
 export default [
   {
     ignores: ['node_modules', '.next', 'dist', 'build', '**/*.config.js'],
   },
   js.configs.recommended,
-  ...tseslint.configs.recommended,
-  ...tseslint.configs.strictTypeChecked,
   {
+    files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
+      parser: tsParser,
       parserOptions: {
         project: './tsconfig.json',
       },
+    },
+    plugins: {
+      '@typescript-eslint': tsPlugin,
+    },
+    rules: {
+      ...tsPlugin.configs.recommended.rules,
+      ...tsPlugin.configs['strict-type-checked'].rules,
     },
   },
 ];
