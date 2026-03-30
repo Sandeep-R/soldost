@@ -1,0 +1,37 @@
+# Supabase Configuration
+# Run: supabase init --project-ref your-project-ref
+
+# This file is REQUIRED for the "supabase" CLI to work.
+# Copy your project ref from: https://app.supabase.com/projects
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "storage", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+major_version = 15
+
+[studio]
+enabled = true
+port = 54323
+
+[inbucket]
+enabled = true
+port = 54324
+
+[auth]
+enabled = true
+port = 54325
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["http://localhost:3000/auth/callback"]
+jwt_expiry_secs = 3600
+enable_phone_autoconfirm = false
+enable_email_confirmations = true
+
+[realtime]
+enabled = true
+max_bytes_per_second = 1048576

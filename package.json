@@ -1,0 +1,52 @@
+{
+  "name": "soldost",
+  "version": "0.1.0",
+  "description": "A WhatsApp-native language learning app for pairs",
+  "main": "app/server.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx app/server.ts",
+    "build": "next build",
+    "start": "next start",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "lint": "eslint . --ext .ts,.tsx",
+    "format": "prettier --write .",
+    "db:push": "supabase push",
+    "db:pull": "supabase pull",
+    "db:reset": "supabase db reset",
+    "db:seed": "tsx db/seed.ts",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.21.0",
+    "@baileys/core": "^8.0.1",
+    "@supabase/auth-helpers-nextjs": "^0.10.0",
+    "@supabase/supabase-js": "^2.45.0",
+    "express": "^4.19.0",
+    "next": "^15.0.0",
+    "node-cron": "^3.0.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "transliteration": "^2.3.5",
+    "dotenv": "^16.4.5",
+    "pino": "^9.0.0",
+    "pino-pretty": "^11.0.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "eslint": "^9.0.0",
+    "prettier": "^3.1.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0",
+    "typescript-eslint": "^7.0.0",
+    "vitest": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
