@@ -10,7 +10,7 @@
  * All components run in a single process on Railway.
  */
 
-import express, { Express } from 'express';
+import express, { Express, Request, Response } from 'express';
 import next from 'next';
 import { env } from '@/lib/config/env';
 import { logger } from '@/lib/config/logger';
@@ -23,7 +23,6 @@ const isDev = env.NODE_ENV !== 'production';
 
 let baileysBotInitialized = false;
 let schedulerInitialized = false;
-let llmServiceInitialized = false;
 
 /**
  * Initialize all services
@@ -35,7 +34,6 @@ async function initializeServices() {
     // 1. Initialize LLM Service
     logger.info('Initializing LLM service...');
     await llmService.initialize();
-    llmServiceInitialized = true;
     logger.info('✅ LLM service initialized');
 
     // 2. Initialize Learning Loop Engine
@@ -106,7 +104,7 @@ async function initializeScheduler() {
  * Used by Railway to monitor the app
  */
 function setupHealthCheck(app: Express) {
-  app.get('/api/health', (req, res) => {
+  app.get('/api/health', (_req: Request, res: Response) => {
     res.json({
       status: 'ok',
       timestamp: new Date().toISOString(),
@@ -147,7 +145,7 @@ async function main() {
     setupHealthCheck(app);
 
     // Next.js request handler (fallback)
-    app.get('*', (req, res) => {
+    app.get('*', (req: Request, res: Response) => {
       return handle(req, res);
     });
 

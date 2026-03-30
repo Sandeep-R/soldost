@@ -16,25 +16,11 @@ import makeWASocket, {
   BufferingWebSocket,
   ConnectionState,
   DisconnectReason,
-  downloadMediaMessage,
   fetchLatestBaileysVersion,
-  getContentType,
-  HandshakeMessage,
-  jidNormalizedUser,
-  makeCacheableSignalStore,
   makeInMemoryStore,
-  MessageRetryMap,
-  WAMessageContent,
-  WAMessageKey,
-  ProtoMessage,
-  isJidBroadcast,
-  isJidStatusBroadcast,
-  toBuffer,
 } from '@baileys/core';
 import { logger } from '@/lib/config/logger';
 import { env } from '@/lib/config/env';
-import { learningLoopEngine } from '@/services/learning-loop-engine';
-import type { MessageForEvaluation, LoopState } from '@/services/learning-loop-engine';
 
 /**
  * WhatsApp message handler
@@ -269,7 +255,7 @@ export class BaileysBot {
   /**
    * Handle credential updates (session persistence)
    */
-  private handleCredsUpdate(creds: AuthenticationCreds): void {
+  private handleCredsUpdate(_creds: AuthenticationCreds): void {
     logger.debug('WhatsApp credentials updated');
     // TODO: Persist credentials to Supabase for session recovery
   }

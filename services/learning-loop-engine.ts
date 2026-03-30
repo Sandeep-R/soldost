@@ -16,17 +16,8 @@
 
 import { logger } from '@/lib/config/logger';
 import { llmService } from '@/services/llm-service';
-import type {
-  TranslationEvaluation,
-  GrammarCorrection,
-  IntentDetectionResult,
-} from '@/lib/llm/types';
-import type {
-  LearningLoop,
-  Group,
-  Word,
-  Streak,
-} from '@/lib/supabase/types';
+import type { IntentDetectionResult } from '@/lib/llm/types';
+import type { Word } from '@/lib/supabase/types';
 
 /**
  * Learning loop states
@@ -294,8 +285,8 @@ export class LearningLoopEngine {
    * awaiting_translation → evaluating_translation → (completes or stays in awaiting_translation)
    */
   private async handleTranslationAttempt(
-    message: MessageForEvaluation,
-    context: LearningLoopContext
+    _message: MessageForEvaluation,
+    _context: LearningLoopContext
   ): Promise<EvaluationResult> {
     logger.debug('Processing translation attempt');
 
@@ -317,7 +308,7 @@ export class LearningLoopEngine {
    */
   private async handleLearnerReply(
     message: MessageForEvaluation,
-    context: LearningLoopContext
+    _context: LearningLoopContext
   ): Promise<EvaluationResult> {
     logger.debug('Processing learner reply');
 
@@ -447,6 +438,4 @@ export class LearningLoopEngine {
   }
 }
 
-// Export both the class and singleton instance
-export { LearningLoopEngine };
 export const learningLoopEngine = new LearningLoopEngine();

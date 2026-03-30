@@ -41,12 +41,10 @@ export class AnthropicAdapter implements LLMProvider {
   private client: Anthropic;
   private model: string;
   private maxRetries: number;
-  private timeoutMs: number;
 
   constructor(config: AnthropicClientConfig) {
     this.model = config.model;
     this.maxRetries = config.maxRetries;
-    this.timeoutMs = config.timeoutMs;
 
     this.client = new Anthropic({
       apiKey: config.apiKey,
@@ -125,9 +123,9 @@ Always provide brief, encouraging feedback.
       );
 
       return {
-        result: parsed.result,
-        feedback: parsed.feedback,
-        reference_translation: learner_translation, // Learner provided translation
+        result: parsed.result as TranslationEvaluation['result'],
+        feedback: parsed.feedback as string,
+        reference_translation: learner_translation,
       };
     } catch (error) {
       logger.error({ error, teacher_message }, 'Translation evaluation failed');
@@ -141,7 +139,7 @@ Always provide brief, encouraging feedback.
   async correctGrammar(
     sentence: string,
     target_language: string,
-    base_language: string
+    _base_language: string
   ): Promise<GrammarCorrection> {
     const systemPrompt = SYSTEM_PROMPT_BASE.replace(
       `LANGUAGE`,
@@ -194,10 +192,10 @@ Rules:
       );
 
       return {
-        corrected_text: parsed.corrected_text,
-        has_errors: parsed.has_errors,
-        errors: parsed.errors || [],
-        explanation: parsed.explanation,
+        corrected_text: parsed.corrected_text as string,
+        has_errors: parsed.has_errors as boolean,
+        errors: (parsed.errors as string[] | undefined) ?? [],
+        explanation: parsed.explanation as string,
       };
     } catch (error) {
       logger.error({ error, sentence }, 'Grammar correction failed');
@@ -329,9 +327,9 @@ Examples of casual chat:
       );
 
       return {
-        is_learning_loop_response: parsed.is_learning_loop_response,
-        confidence: parsed.confidence || 0,
-        reason: parsed.reason,
+        is_learning_loop_response: parsed.is_learning_loop_response as boolean,
+        confidence: (parsed.confidence as number | undefined) ?? 0,
+        reason: parsed.reason as string | undefined,
       };
     } catch (error) {
       logger.error({ error, message }, 'Intent detection failed');
