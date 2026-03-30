@@ -5,49 +5,78 @@
  * 1. Express server + Next.js dashboard
  * 2. Baileys WhatsApp bot (persistent WebSocket)
  * 3. node-cron scheduler for daily tasks
+ * 4. LLM service and learning loop engine
  *
  * All components run in a single process on Railway.
  */
 
-import express, { Express } from 'express';
+import express, { Express, Request, Response } from 'express';
 import next from 'next';
 import { env } from '@/lib/config/env';
 import { logger } from '@/lib/config/logger';
+import { llmService } from '@/services/llm-service';
+import { learningLoopEngine } from '@/services/learning-loop-engine';
+import { baileysBot } from '@/lib/whatsapp/baileys-integration';
+import cron from 'node-cron';
 
 const PORT = env.PORT;
 const isDev = env.NODE_ENV !== 'production';
 
-// Placeholder: These will be implemented in phases 5-9
 let baileysBotInitialized = false;
 let schedulerInitialized = false;
+let llmServiceInitialized = false;
 
 /**
- * Initialize Baileys WhatsApp Bot
- * Phase 5: Implement this
+ * Initialize all services
  */
-async function initializeBailey() {
-  if (!env.ENABLE_BAILEYS_BOT) {
-    logger.info('Baileys bot disabled (ENABLE_BAILEYS_BOT=false)');
-    return;
-  }
-
-  logger.info('Initializing Baileys bot...');
-
+async function initializeServices() {
   try {
-    // TODO: Import and initialize actual Baileys client
-    // import { initializeBaileys } from '@/lib/whatsapp/baileys-client';
-    // await initializeBaileys();
+    logger.info('🚀 Initializing Soldost services...');
 
-    baileysBotInitialized = true;
-    logger.info('✅ Baileys bot initialized');
+    // 1. Initialize LLM Service
+    logger.info('Initializing LLM service...');
+    await llmService.initialize();
+    llmServiceInitialized = true;
+    logger.info('✅ LLM service initialized');
+
+    // 2. Initialize Learning Loop Engine
+    logger.info('Initializing learning loop engine...');
+    await learningLoopEngine.initialize();
+    logger.info('✅ Learning loop engine initialized');
+
+    // 3. Initialize Baileys WhatsApp Bot
+    if (env.ENABLE_BAILEYS_BOT) {
+      logger.info('Initializing Baileys WhatsApp bot...');
+      try {
+        await baileysBot.initialize();
+        baileysBotInitialized = true;
+        logger.info('✅ Baileys bot initialized');
+      } catch (error) {
+        logger.warn(
+          { error },
+          '⚠️ Failed to initialize Baileys bot, continuing without WhatsApp integration'
+        );
+      }
+    } else {
+      logger.info('ℹ️ Baileys bot disabled (ENABLE_BAILEYS_BOT=false)');
+    }
+
+    // 4. Initialize Scheduler
+    if (env.ENABLE_SCHEDULER) {
+      logger.info('Initializing scheduler...');
+      await initializeScheduler();
+      schedulerInitialized = true;
+      logger.info('✅ Scheduler initialized');
+    } else {
+      logger.info('ℹ️ Scheduler disabled (ENABLE_SCHEDULER=false)');
+    }
+
+    logger.info('🎉 All services initialized successfully');
   } catch (error) {
-    logger.error({ error }, '❌ Failed to initialize Baileys bot');
+    logger.error({ error }, '❌ Failed to initialize services');
     throw error;
   }
 }
-
-/**
- * Initialize node-cron Scheduler
  * Phase 9: Implement this
  */
 async function initializeScheduler() {
