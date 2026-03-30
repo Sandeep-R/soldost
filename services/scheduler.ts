@@ -12,7 +12,6 @@
  * Uses node-cron for scheduling (runs every minute, checks if any groups have tasks).
  */
 
-import cron from 'node-cron';
 import { logger } from '@/lib/config/logger';
 
 /**
@@ -57,7 +56,7 @@ export async function startScheduler(): Promise<void> {
  * Deliver 3 daily words to a group
  * Called by the scheduler
  */
-async function deliverDailyWords(groupId: string): Promise<void> {
+export async function deliverDailyWords(groupId: string): Promise<void> {
   logger.debug({ groupId }, 'Delivering daily words');
 
   // TODO: Implement in Phase 9
@@ -77,7 +76,7 @@ async function deliverDailyWords(groupId: string): Promise<void> {
 /**
  * Send reminder nudges if loop incomplete
  */
-async function sendReminders(): Promise<void> {
+export async function sendReminders(): Promise<void> {
   // TODO: Implement in Phase 9
   /**
    * 1. Find loops that started but not completed today
@@ -92,7 +91,7 @@ async function sendReminders(): Promise<void> {
 /**
  * Check for streak breaks
  */
-async function checkStreakBreaks(): Promise<void> {
+export async function checkStreakBreaks(): Promise<void> {
   // TODO: Implement in Phase 9
   /**
    * 1. Find all groups with active streaks
@@ -105,7 +104,7 @@ async function checkStreakBreaks(): Promise<void> {
 /**
  * Mark expired loops as expired
  */
-async function markExpiredLoops(): Promise<void> {
+export async function markExpiredLoops(): Promise<void> {
   // TODO: Implement in Phase 9
   /**
    * 1. Find loops with status != COMPLETED and started_at before today

@@ -309,7 +309,7 @@ export function getTransliterationVariations(word: string): string[] {
   const normalized = normalizeTamilRomanization(word);
 
   // Look up variations
-  for (const [canonical, variations] of Object.entries(
+  for (const [, variations] of Object.entries(
     TAMIL_TRANSLITERATION_VARIATIONS
   )) {
     if (variations.includes(normalized)) {
