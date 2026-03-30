@@ -61,7 +61,7 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {groups.map((group) => (
             <div
-              key={group.id}
+              key={group.group_id}
               className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition"
             >
               <h2 className="text-xl font-semibold mb-2">
@@ -74,7 +74,7 @@ export default function Dashboard() {
                 Status: <span className="font-medium">{group.status}</span>
               </p>
               <a
-                href={`/dashboard/groups/${group.id}`}
+                href={`/dashboard/groups/${group.group_id}`}
                 className="text-blue-600 hover:text-blue-700 font-medium"
               >
                 View Progress →

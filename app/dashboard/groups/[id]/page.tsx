@@ -132,9 +132,9 @@ export default function GroupDetail() {
         ) : (
           <div className="space-y-4">
             {loops.map((loop) => (
-              <div key={loop.id} className="bg-white rounded-lg shadow p-6">
+              <div key={loop.loop_id} className="bg-white rounded-lg shadow p-6">
                 <div className="flex items-center justify-between mb-2">
-                  <p className="font-medium text-lg">Loop {loop.id.slice(0, 8)}</p>
+                  <p className="font-medium text-lg">Loop {loop.loop_id.slice(0, 8)}</p>
                   <span
                     className={`px-3 py-1 rounded-full text-sm font-medium ${
                       loop.status === 'completed'
