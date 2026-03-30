@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.21.0",
-    "@baileys/core": "^8.0.1",
+    "baileys": "^6.3.0",
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/supabase-js": "^2.45.0",
     "express": "^4.19.0",
