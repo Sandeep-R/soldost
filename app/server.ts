@@ -62,7 +62,7 @@ async function initializeServices() {
     if (env.ENABLE_SCHEDULER) {
       logger.info('Initializing scheduler...');
       await initializeScheduler();
-      schedulerInitialized = true;
+      schedulerInitialized = env.ENABLE_SCHEDULER;
       logger.info('✅ Scheduler initialized');
     } else {
       logger.info('ℹ️ Scheduler disabled (ENABLE_SCHEDULER=false)');

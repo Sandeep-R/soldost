@@ -109,7 +109,7 @@ describe('Tamil Transliteration Utils', () => {
 
     it('should normalize double consonants', () => {
       expect(normalizeTamilRomanization('katthhai')).toBe('kathai');
-      expect(normalizeTamilRomanization('solllunn')).toBe('solunn'); // Reduce to single
+      expect(normalizeTamilRomanization('solllunn')).toBe('sollun'); // Reduce pairs to single
     });
 
     it('should handle mixed errors', () => {

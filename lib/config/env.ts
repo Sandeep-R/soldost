@@ -25,15 +25,15 @@ const envSchema = z.object({
   ENABLE_BAILEYS_BOT: z
     .string()
     .default('true')
-    .pipe(z.coerce.boolean()),
+    .transform((val) => val === 'true'),
   ENABLE_SCHEDULER: z
     .string()
     .default('true')
-    .pipe(z.coerce.boolean()),
+    .transform((val) => val === 'true'),
   ENABLE_DASHBOARD: z
     .string()
     .default('true')
-    .pipe(z.coerce.boolean()),
+    .transform((val) => val === 'true'),
 
   // Monitoring (optional)
   SENTRY_DSN: z.string().url().optional(),

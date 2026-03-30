@@ -151,17 +151,17 @@ Check this ${target_language} sentence (in Roman script) for grammar and structu
 
 "${sentence}"
 
-Respond in JSON format:
+Respond in valid JSON format only. Do not include alternatives or "or" in any field value — pick the single best correction:
 {
   "has_errors": true | false,
   "errors": ["error1", "error2"],
-  "corrected_text": "corrected version in Roman script",
+  "corrected_text": "single best corrected version in Roman script",
   "explanation": "Brief explanation of corrections (if any)"
 }
 
 Rules:
 - List specific grammar or vocabulary errors (if any)
-- Provide corrected version in Roman script (transliterated, no native script)
+- Provide ONE corrected version in Roman script (transliterated, no native script)
 - Be encouraging even if there are errors
 - If no errors, set errors to [] and explanation to "Your sentence is correct!"
 `;
@@ -303,7 +303,7 @@ Examples of casual chat:
 
     try {
       const response = await this.client.messages.create({
-        model: 'claude-3-5-haiku-20241022', // Use Haiku for Tier 1 (cheaper)
+        model: 'claude-haiku-4-5-20251001', // Use Haiku for Tier 1 (cheaper)
         max_tokens: 100,
         system: systemPrompt,
         messages: [
@@ -359,13 +359,22 @@ Examples of casual chat:
    */
   private parseJSON(text: string): Record<string, unknown> {
     try {
-      // Find JSON block if wrapped in markdown
-      const jsonMatch = text.match(/\{[\s\S]*\}/);
-      if (!jsonMatch) {
-        throw new Error('No JSON found in response');
-      }
+      // Strip markdown code fences if present
+      let cleaned = text.replace(/```(?:json)?\s*/g, '').replace(/```/g, '').trim();
 
-      return JSON.parse(jsonMatch[0]);
+      // Find the first complete JSON object by matching balanced braces
+      const start = cleaned.indexOf('{');
+      if (start === -1) throw new Error('No JSON found in response');
+
+      let depth = 0;
+      let end = -1;
+      for (let i = start; i < cleaned.length; i++) {
+        if (cleaned[i] === '{') depth++;
+        else if (cleaned[i] === '}') { depth--; if (depth === 0) { end = i; break; } }
+      }
+      if (end === -1) throw new Error('No complete JSON object found');
+
+      return JSON.parse(cleaned.substring(start, end + 1));
     } catch (error) {
       logger.warn(
         { text, error },

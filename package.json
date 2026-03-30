@@ -5,7 +5,7 @@
   "main": "app/server.ts",
   "type": "module",
   "scripts": {
-    "dev": "tsx app/server.ts",
+    "dev": "tsx --require dotenv/config app/server.ts",
     "build": "next build",
     "start": "next start",
     "test": "vitest",
