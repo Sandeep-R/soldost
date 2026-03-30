@@ -17,7 +17,6 @@ import { logger } from '@/lib/config/logger';
 import { llmService } from '@/services/llm-service';
 import { learningLoopEngine } from '@/services/learning-loop-engine';
 import { baileysBot } from '@/lib/whatsapp/baileys-integration';
-import cron from 'node-cron';
 
 const PORT = env.PORT;
 const isDev = env.NODE_ENV !== 'production';
