@@ -13,12 +13,11 @@ import { Boom } from '@hapi/boom';
 import makeWASocket, {
   AuthenticationCreds,
   AuthenticationState,
-  BufferingWebSocket,
   ConnectionState,
   DisconnectReason,
   fetchLatestBaileysVersion,
   makeInMemoryStore,
-} from '@baileys/core';
+} from 'baileys';
 import { logger } from '@/lib/config/logger';
 import { env } from '@/lib/config/env';
 
@@ -48,7 +47,7 @@ export class BaileysBot {
   private messageHandlers: Map<string, (msg: WhatsAppMessage) => Promise<void>> =
     new Map();
 
-  constructor(phoneNumber: string = env.BOT_PHONE_NUMBER) {
+  constructor(phoneNumber: string = env.BOT_PHONE_NUMBER ?? '') {
     this.phoneNumber = phoneNumber;
   }
 
@@ -73,15 +72,11 @@ export class BaileysBot {
       // Create socket
       this.socket = makeWASocket({
         version,
-        logger: {
-          log: (message) => logger.debug(message, 'Baileys'),
-          error: (error) => logger.error(error, 'Baileys Error'),
-          warn: (message) => logger.warn(message, 'Baileys'),
-        },
+        logger: logger.child({ module: 'baileys' }),
         syncFullHistory: false,
         printQRInTerminal: true,
         auth: this.authState || undefined,
-        browser: ['Ubuntu', 'Chrome', '120'],
+        browser: ['Ubuntu', 'Chrome', '120'] as [string, string, string],
       });
 
       await this.setupHandlers();
@@ -289,7 +284,7 @@ export class BaileysBot {
     jid?: string;
   } {
     return {
-      connected: this.socket?.ws?.readyState === BufferingWebSocket.OPEN,
+      connected: this.socket?.ws?.readyState === 1, // WebSocket.OPEN
       connecting: this.isConnecting,
       jid: this.socket?.user?.id,
     };

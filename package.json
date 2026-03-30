@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.21.0",
+    "@hapi/boom": "^10.0.1",
     "baileys": "^6.3.0",
     "@supabase/ssr": "^0.5.0",
     "@supabase/supabase-js": "^2.45.0",
