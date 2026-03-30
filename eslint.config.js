@@ -1,39 +1,18 @@
 import js from '@eslint/js';
-import tsParser from '@typescript-eslint/parser';
-import tsPlugin from '@typescript-eslint/eslint-plugin';
+import tseslint from 'typescript-eslint';
 
 export default [
   {
     ignores: ['node_modules', '.next', 'dist', 'build', '**/*.config.js'],
   },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  ...tseslint.configs.strictTypeChecked,
   {
-    files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
-      parser: tsParser,
       parserOptions: {
         project: './tsconfig.json',
-        ecmaVersion: 2020,
-        sourceType: 'module',
       },
     },
-    plugins: {
-      '@typescript-eslint': tsPlugin,
-    },
-    rules: {
-      ...ts.configs.recommended.rules,
-      '@typescript-eslint/no-unused-vars': [
-        'error',
-        { argsIgnorePattern: '^_' },
-      ],
-      '@typescript-eslint/explicit-function-return-types': 'warn',
-    },
-  },
-  {
-    files: ['**/*.js', '**/*.jsx'],
-    languageOptions: {
-      ecmaVersion: 2020,
-      sourceType: 'module',
-    },
-    rules: js.configs.recommended.rules,
   },
 ];
